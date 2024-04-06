@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Team Leaderboard Results</title>
+    <style>
+         :root {
+            --text-color: #e34242;
+            --header-color: #c9610c;
+            --accent-color: #FF0000;
+            --font-stack: 'Orbitron', serif;
+            /* Updated font to 'Merriweather' */
+            --font-size: 14px;
+            --first-place-color: #FFD700;
+            --second-place-color: #C0C0C0;
+            --third-place-color: #CD7F32;
+        }
+        
+        body {
+            background-image: url('NewBackgroundRedCYS.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-color);
+            font-family: var(--font-stack);
+            font-size: var(--font-size);
+            /* Applied the 'Merriweather' font here */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            margin: 40px 0 20px;
+            color: var(--header-color);
+            font-size: 2em;
+            animation: pulse 2s infinite, moveUpDown 3s infinite;
+        }
+        
+        .top-three-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        
+        .top-three-container>div {
+            border: 3px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 10px;
+            width: 120px;
+            height: 180px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .top-three-container>div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .top-three-container>div img {
+            width: 80px;
+            height: auto;
+        }
+        
+        .top-three-container>div h2 {
+            margin: 5px 0;
+            color: var(--header-color);
+            font-size: 1.1em;
+        }
+        
+        .top-three-container>div p {
+            margin: 2px 0;
+            font-size: 0.9em;
+        }
+        
+        .first-place {
+            border-color: var(--first-place-color);
+        }
+        
+        .second-place {
+            border-color: var(--second-place-color);
+        }
+        
+        .third-place {
+            border-color: var(--third-place-color);
+        }
+        
+        table {
+            width: 80%;
+            margin: 0 auto 40px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        th {
+            background-color: var(--accent-color);
+            color: #FFFFFF;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #FFE5E5;
+        }
+        
+        @media (max-width: 768px) {
+            .top-three-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .top-three-container>div {
+                width: 90%;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            table {
+                width: 95%;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px #e67213, 0 0 20px #e67213, 0 0 30px #e67213;
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 20px #e06c6c, 0 0 30px #e06c6c, 0 0 40px #e06c6c;
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px #b04c0d, 0 0 20px #b04c0d, 0 0 30px #b04c0d;
+            }
+        }
+        
+        @keyframes moveUpDown {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #000000;
+            color: #fdfffe;
+            text-align: center;
+        }
+        
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .top-three-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .top-three-container>div {
+                width: 90%;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            table {
+                width: 95%;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 10px #d95757
+            }
+        }
+        
+        .bloody {
+            font-family: 'Orbitron', sans-serif;
+            /* Change to 'Press Start 2P' if preferred */
+            position: relative;
+            color: #fc6b1d;
+            /* Dark red color */
+        }
+        /* Blood drip effect */
+        
+        .bloody::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 20px;
+            background-color: darkred;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: drip 2s infinite;
+        }
+    </style>
+</head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@200;300;400;500&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<body>
+    <img src="imgRedCYS.png" alt="Leaderboard Top Image" style="width:100%; height:auto; max-width:1920px; margin-top:10px;">
+    <h1>🏆 Red Team Top Hackers 🏆</h1>
+
+    <div class="top-three-container">
+        <div class="second-place">
+            <img src="new2ST.png" alt="Second Place" style="width:120px; height:auto;">
+            <h2>2nd Place</h2>
+            <p id="second-name">-</p>
+            <p id="second-score">-</p>
+        </div>
+        <div class="first-place">
+            <img src="new1ST.png" alt="First Place" style="width:120px; height:auto;">
+            <h2>1st Place</h2>
+            <p id="first-name">-</p>
+            <p id="first-score">-</p>
+        </div>
+        <div class="third-place">
+            <img src="New3ST.png" alt="Third Place" style="width:120px; height:auto;">
+            <h2>3rd Place</h2>
+            <p id="third-name">-</p>
+            <p id="third-score">-</p>
+        </div>
+    </div>
+
+    <table id="leaderboard">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Total Points</th>
+        </tr>
+
+        <!-- Leaderboard rows will be populated here -->
+    </table>
+    <audio id="backgroundMusic" loop>
+        <source src="video.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+
+    <script>
+        const teamColor = 'red'; // This page is for the red team
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let savedEntries = JSON.parse(localStorage.getItem('leaderboardEntries')) || [];
+            displayEntries(savedEntries.filter(entry => entry.team === teamColor));
+        });
+
+        function displayEntries(entries) {
+            let leaderboardTable = document.getElementById('leaderboard');
+            leaderboardTable.innerHTML = '<tr><th>Rank</th><th>Name</th><th>Score</th><th>Total Points</th></tr>';
+
+            entries.forEach((entry, index) => {
+                let newRow = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${entry.name}</td>
+                            <td>${entry.score}</td>
+                            <td>${entry.totalPoints || entry.score}</td>
+                          </tr>`;
+                leaderboardTable.innerHTML += newRow;
+            });
+
+            displayTopThree(entries);
+        }
+
+        function displayTopThree(entries) {
+            let sortedEntries = entries.sort((a, b) => b.score - a.score);
+
+            ['first', 'second', 'third'].forEach((place, index) => {
+                const nameElement = document.getElementById(`${place}-name`);
+                const scoreElement = document.getElementById(`${place}-score`);
+                if (sortedEntries.length > index) {
+                    const entry = sortedEntries[index];
+                    nameElement.textContent = entry.name;
+                    scoreElement.textContent = entry.score;
+                } else {
+                    nameElement.textContent = '-';
+                    scoreElement.textContent = '-';
+                }
+            });
+        }
+        // Audio play logic
+        document.addEventListener('click', function playAudio() {
+            var audio = document.getElementById('backgroundMusic');
+            if (audio.paused) {
+                audio.play();
+            }
+        });
+    </script>
+    <footer>
+        &copy; 2024 Hessa Albaqami. All rights reserved.
+    </footer>
+</body>
