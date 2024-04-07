@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -219,3 +220,226 @@ a.team-blue:hover {
     </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard Control Panel</title>
+    <a href="resualtforRed.html" class="team-red">ResualtForRed</a>
+    <br>
+    <br>
+    <a href="resualtforBlue.html" class="team-blue">ResualtForBlue</a>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        a.team-red {
+    color: red;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a.team-red:hover {
+    color: #cc0000; /* Darker shade of red on hover */
+}
+
+a.team-blue {
+    color: blue;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a.team-blue:hover {
+    color: #0000cc; /* Darker shade of blue on hover */
+}
+        
+        .team-red {
+            color: red;
+        }
+
+        .team-blue {
+            color: blue;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #entries {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .entry {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Leaderboard Control Panel</h1>
+    <button onclick="addEntry()">Add Entry</button>
+    <button onclick="removeEntry()">Remove Entry</button>
+    <button onclick="listEntries()">List Entries</button>
+    <button onclick="editEntry()">Edit Entry</button>
+    <button onclick="downloadLeaderboardData()">Download Leaderboard Data</button>
+    <button onclick="promptAdjustEntryScore()">Adjust Entry Score</button>
+    <button onclick="clearEntries()">Clear Entries</button>
+
+    <div id="entries"></div>
+
+    <script>
+        let entries = JSON.parse(localStorage.getItem('leaderboardEntries')) || [];
+
+        async function postToDiscord(message) {
+            const webhookUrl = 'YOUR_DISCORD_WEBHOOK_URL';
+            const payload = JSON.stringify({
+                content: message
+            });
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: payload,
+            }).catch(error => console.error('Error posting message to Discord', error));
+        }
+
+        function updateLocalStorage() {
+            localStorage.setItem('leaderboardEntries', JSON.stringify(entries));
+            listEntries(); // Refresh the entries display
+        }
+
+        function addEntry() {
+            const name = prompt('Enter the name for the new entry:');
+            if (!name) {
+                alert('Name is required to add an entry.');
+                return;
+            }
+            const score = prompt('Enter the score for the new entry:');
+            if (!score || isNaN(score)) {
+                alert('Score must be a valid number.');
+                return;
+            }
+            const team = prompt('Enter the team color (red or blue):');
+            if (!team || (team !== 'red' && team !== 'blue')) {
+                alert('Team must be either "red" or "blue".');
+                return;
+            }
+            const newEntry = {
+                name,
+                score: parseInt(score, 10),
+                team
+            };
+            entries.push(newEntry);
+            updateLocalStorage();
+            postToDiscord(`**${name}** has been added to the leaderboard with a score of **${score}** for the **${team}** team.`);
+        }
+
+        function removeEntry() {
+            const name = prompt('Enter the name of the entry to remove:');
+            const entryIndex = entries.findIndex(entry => entry.name === name);
+            if (entryIndex === -1) {
+                alert('Entry not found.');
+                return;
+            }
+            entries.splice(entryIndex, 1);
+            updateLocalStorage();
+            postToDiscord(`**${entries[entryIndex].name}** has been removed from the leaderboard.`);
+        }
+
+        function listEntries() {
+            const entriesDiv = document.getElementById('entries');
+            entriesDiv.innerHTML = ''; // Clear current entries
+            entries.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'entry';
+                const teamClass = entry.team === 'red' ? 'team-red' : (entry.team === 'blue' ? 'team-blue' : '');
+                entryDiv.innerHTML = `<strong>Name:</strong> ${entry.name} <br> <strong>Score:</strong> ${entry.score} <br> <strong>Team:</strong> <span class="${teamClass}">${entry.team}</span>`;
+                entriesDiv.appendChild(entryDiv);
+            });
+        }
+
+        function editEntry() {
+            const name = prompt('Enter the name of the entry to edit:');
+            const entryIndex = entries.findIndex(entry => entry.name === name);
+            if (entryIndex === -1) {
+                alert('Entry not found.');
+                return;
+            }
+            const newName = prompt('Enter the new name:', entries[entryIndex].name);
+            const newScore = prompt('Enter the new score:', entries[entryIndex].score);
+            const newTeam = prompt('Enter the new team color (red or blue):', entries[entryIndex].team);
+            if (!newName || !newScore || isNaN(newScore) || (newTeam !== 'red' && newTeam !== 'blue')) {
+                alert('Invalid input.');
+                return;
+            }
+            entries[entryIndex] = { name: newName, score: parseInt(newScore, 10), team: newTeam };
+            updateLocalStorage();
+        }
+        function clearEntries() {
+    if (confirm('Are you sure you want to remove all entries?')) {
+        entries = []; // Clear the entries array
+        updateLocalStorage(); // Update local storage
+        alert('All entries have been removed.');
+    }
+}
+
+        function downloadLeaderboardData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(entries));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "leaderboardEntries.json");
+            document.body.appendChild(downloadAnchorNode); // Required for Firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        }
+
+        function promptAdjustEntryScore() {
+            const name = prompt('Enter the name of the participant to adjust score:');
+            const entryIndex = entries.findIndex(entry => entry.name === name);
+            if (entryIndex === -1) {
+                alert('Participant not found.');
+                return;
+            }
+            const newScore = prompt('Enter the new score:', entries[entryIndex].score);
+            if (!newScore || isNaN(newScore)) {
+                alert('Score must be a valid number.');
+                return;
+            }
+            entries[entryIndex].score = parseInt(newScore, 10);
+            updateLocalStorage();
+        }
+
+        window.onload = listEntries;
+    </script>
+</body>
+</html>
+>>>>>>> 1336ccb644d3f1c30367ec0ffc490bd7676b3f3f
